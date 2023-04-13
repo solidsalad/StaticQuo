@@ -7,9 +7,14 @@
     	<link rel="stylesheet" href="reset.css">
     	<link rel="stylesheet" href="stijl.css">
     	<script src="script.js" ></script>
+		<style>
+			{{ style }}
+			{{ navStyle }}
+		</style>
     	<title>{{ title }}</title>
     </head>
     <body>
+		{{ nav }}
     	<ul>
 			{% for page in data %}
 				<li>

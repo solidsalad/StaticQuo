@@ -7,15 +7,13 @@
     	<link rel="stylesheet" href="reset.css">
     	<link rel="stylesheet" href="stijl.css">
     	<script src="script.js" ></script>
+		<style>
+			{{ style }}
+			{{ navStyle }}
+		</style>
     	<title>{{ title }}</title>
     </head>
     <body>
-    	<ul>
-			{% for type in types %}
-				<li>
-					<a href="../{{ type.folder }}/{{ type.name }}.html">{{ type.name }}</a>
-				</li>
-			{% endfor %}
-		</ul>
+		{{ nav }}
     </body>
     </html>

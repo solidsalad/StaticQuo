@@ -1,0 +1,13 @@
+<header>
+	<img class="logo" src="../images/logo.svg">
+	<nav>
+		<ul>
+			{% for link in links %}
+				<li>
+					<a href="../{{ link.folder }}/{{ link.name }}.html">{{ link.name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</nav>
+	<a class="home" href="../_site/home.html"><button>Home</button></a>
+</header>

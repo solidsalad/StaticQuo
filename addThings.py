@@ -1,9 +1,9 @@
 from parsers import ParseToHTML, GetYamlData, JSONToDict
-from website import UpdateListBrowser
+from website import UpdateListBrowser, GetNav, GetStyle
 from jinja2 import Environment, FileSystemLoader
 import json
 
-def AddPage(markdownFile, template):
+def AddPage(markdownFile, template, style=" "):
     try:
         content = ParseToHTML("pages", markdownFile)
     except:
@@ -25,11 +25,20 @@ def AddPage(markdownFile, template):
             pageData["author"] = "anonymous"
         pageList[f"{pageName}"] = pageData
 
+        #a ditcionary with all the links the nav needs to contain
+        navLinks = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+
+
         #fill in template with jinja
         environment = Environment(loader=FileSystemLoader("templates/"))
         template = environment.get_template("page_template.html")
         with open(f"pages/{pageName}.html", mode="w", encoding="utf-8") as message:
-            message.write(template.render(pageData))
+            message.write(template.render(
+                pageData,
+                nav = GetNav("nav", navLinks),
+                navStyle = GetStyle("navStyle.css"),
+                style = GetStyle(style)
+                ))
 
         with open("pages/" + markdownFile.replace("md", "JSON"), "w") as f:
             json.dump(pageData, f, default=str)
@@ -38,7 +47,7 @@ def AddPage(markdownFile, template):
         UpdateListBrowser("pages", "pages")
     
 
-def AddPost(markdownFile, template):
+def AddPost(markdownFile, template, style=" "):
     try:
         content = ParseToHTML("posts", markdownFile)
     except:
@@ -60,11 +69,19 @@ def AddPost(markdownFile, template):
             postData["author"] = "anonymous"
         postList[f"{postName}"] = postData
 
+        #a ditcionary with all the links the nav needs to contain
+        navLinks = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+
         #fill in template with jinja
         environment = Environment(loader=FileSystemLoader("templates/"))
         template = environment.get_template("post_template.html")
         with open(f"posts/{postName}.html", mode="w", encoding="utf-8") as message:
-            message.write(template.render(postData))
+            message.write(template.render(
+                postData,
+                nav = GetNav("nav", navLinks),
+                navStyle = GetStyle("navStyle.css"),
+                style = GetStyle(style)
+                ))
 
         #save data and refresh post list
         with open("posts/" + markdownFile.replace("md", "JSON"), "w") as f:

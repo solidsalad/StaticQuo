@@ -6,10 +6,11 @@ import json
 
 initialize()
 
-AddPage("fuck.md", "template1.html")
-AddPost("dingeske.md", "template1.html")
-AddPage("chatGPTPageExample.md", "template1.html")
-AddPost("chatGPTPostExample.md", "template1.html")
+AddPage("fuck.md", "template1.html", "darkMode.css")
+AddPost("dingeske.md", "template1.html", "darkMode.css")
+AddPage("chatGPTPageExample.md", "template1.html", "darkMode.css")
+AddPost("chatGPTPostExample.md", "template1.html", "darkMode.css")
+AddPost("post1.md", "template1.html", "darkMode.css")
 
 
 
