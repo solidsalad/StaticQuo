@@ -1,23 +1,27 @@
 from parsers import JSONToDict
 from jinja2 import Environment, FileSystemLoader
 
-def UpdateListBrowser(folder, file):
-    data = JSONToDict(f"{folder}/{file}.JSON")
+def UpdateListBrowser(folder, content, template, contentHeader=""):
+    data = JSONToDict(f"{folder}/{content}.JSON")
     environment = Environment(loader=FileSystemLoader("templates/"))
-    template = environment.get_template(f"{file}_template.html")
+    template = environment.get_template(template)
     types = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
-    with open(f"{folder}/{file}.html", mode="w", encoding="utf-8") as message:
+    #if no content header has been provided, the content header becomes the name of the file
+    if (contentHeader == ""):
+        contentHeader = content
+    with open(f"{folder}/{content}.html", mode="w", encoding="utf-8") as message:
         message.write(template.render(
             data = data.values(),
             nav = GetNav("nav", types),
             navStyle = GetStyle("navStyle.css"),
-            style = GetStyle("darkMode.css")
+            style = GetStyle("darkMode.css"),
+            header = contentHeader
             ))
 
 def initialize():
     types = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
     environment = Environment(loader=FileSystemLoader("templates/"))
-    template = environment.get_template("browseList.html")
+    template = environment.get_template("home.html")
     with open("_site/home.html", mode="w", encoding="utf-8") as home:
         home.write(template.render(
             title = "home",
@@ -26,7 +30,7 @@ def initialize():
             style = GetStyle("darkMode.css")
             ))
     for type in types["links"]:
-        UpdateListBrowser(type["folder"], type["name"])
+        UpdateListBrowser(type["folder"], type["name"], f'{type["name"]}_template.html')
 
 def GetNav(navName, links):
     environment = Environment(loader=FileSystemLoader("templates/"))

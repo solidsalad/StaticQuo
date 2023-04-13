@@ -15,11 +15,19 @@
     </head>
     <body>
 		{{ nav }}
-        <ul>
-			{% for page in data %}
+        <h1>{{ header }}:</h1>
+    	<ul>
+			{% for post in data %}
 				<li>
-					<a href="{{ page.fileName }}.html">{{ page.title }}</a>
-					<p>author: {{ page.author }}</p>
+					<a href="../posts/{{ post.fileName }}.html">{{ post.title }}</a>
+					<div>
+                        <p>tags:</p>
+                        <ul>
+                            {% for tag in post.tags %}
+                                <a href="{{ tag }}.html">{{ tag }}</a>
+                            {% endfor %}
+                        </ul>
+                    </div>
 				</li>
 			{% endfor %}
 		</ul>

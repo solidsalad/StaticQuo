@@ -15,13 +15,16 @@
     </head>
     <body>
 		{{ nav }}
-    	<ul>
-			{% for page in data %}
-				<li>
-					<a href="{{ page.fileName }}.html">{{ page.title }}</a>
-					<p>author: {{ page.author }}</p>
-				</li>
-			{% endfor %}
-		</ul>
+		<div class="{{ header }}">
+			<h1>{{ header }}:</h1>
+			<ul>
+				{% for page in data %}
+					<li class="tag">
+						<a href="{{ page.fileName }}.html">{{ page.title }}</a>
+						<p>author: {{ page.author }}</p>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
     </body>
     </html>

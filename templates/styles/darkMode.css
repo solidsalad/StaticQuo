@@ -1,10 +1,23 @@
 body {
     background-color: #2a2e35;
     color:#edf0f1;
-    padding: 1rem;
 }
 
 body a {
     color: #0088a9;
     cursor: pointer;
+}
+
+.postListing {
+    margin-bottom: 5rem;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.tag a {
+    text-decoration: none;
+    color: #6e64c3;
 }
