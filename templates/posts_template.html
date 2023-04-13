@@ -11,9 +11,17 @@
     </head>
     <body>
     	<ul>
-			{% for type in types %}
+			{% for post in data %}
 				<li>
-					<a href="../{{ type.folder }}/{{ type.name }}.html">{{ type.name }}</a>
+					<a href="{{ post.fileName }}.html">{{ post.title }}</a>
+					<div>
+                        <p>tags:</p>
+                        <ul>
+                            {% for tag in post.tags %}
+                                <li>{{ tag }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 				</li>
 			{% endfor %}
 		</ul>

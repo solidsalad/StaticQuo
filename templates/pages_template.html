@@ -7,9 +7,16 @@
     	<link rel="stylesheet" href="reset.css">
     	<link rel="stylesheet" href="stijl.css">
     	<script src="script.js" ></script>
-    	<title>name</title>
+    	<title>{{ title }}</title>
     </head>
     <body>
-    	insert-html
+    	<ul>
+			{% for page in data %}
+				<li>
+					<a href="{{ page.fileName }}.html">{{ page.title }}</a>
+					<p>author: {{ page.author }}</p>
+				</li>
+			{% endfor %}
+		</ul>
     </body>
     </html>

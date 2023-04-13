@@ -8,14 +8,9 @@
     	<link rel="stylesheet" href="stijl.css">
     	<script src="script.js" ></script>
     	<title>{{ title }}</title>
-    </head>
-    <body>
-    	<ul>
-			{% for type in types %}
-				<li>
-					<a href="../{{ type.folder }}/{{ type.name }}.html">{{ type.name }}</a>
-				</li>
-			{% endfor %}
-		</ul>
-    </body>
-    </html>
+	</head>
+	<body>
+	  <h1>{{ title }}</h1>
+	  {{ content }}
+	</body>
+  </html>

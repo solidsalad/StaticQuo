@@ -3,12 +3,14 @@ from website import initialize
 import sys
 import json
 
+
+initialize()
+
 AddPage("fuck.md", "template1.html")
 AddPost("dingeske.md", "template1.html")
 AddPage("chatGPTPageExample.md", "template1.html")
 AddPost("chatGPTPostExample.md", "template1.html")
 
-initialize()
 
 
 

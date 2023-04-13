@@ -1,22 +1,21 @@
-from parsers import OpenTemplate, ListToLiOfLinks, JSONToList
+from parsers import JSONToDict
+from jinja2 import Environment, FileSystemLoader
 
-def UpdateListBrowser(folder, list):
-    html = open(f"{folder}/{folder}.html", "w")
-    interface = OpenTemplate("browseList.html")
-    liLinks = ListToLiOfLinks(folder, list)
-    interface = interface.replace("<ul></ul>", liLinks)
-    interface = interface.replace("name", f"{folder}")
-    html.write(f"{interface}")
-    html.close()
+def UpdateListBrowser(folder, file):
+    data = JSONToDict(f"{folder}/{file}.JSON")
+    environment = Environment(loader=FileSystemLoader("templates/"))
+    template = environment.get_template(f"{file}_template.html")
+    with open(f"{folder}/{file}.html", mode="w", encoding="utf-8") as message:
+        message.write(template.render(data = data.values()))
 
 def initialize():
-    html = open("home.html", "w")
-    interface = OpenTemplate("template1.html")
-    interface = interface.replace("insert-html", "<a href=posts/posts.html>posts</a>\n<a href=pages/pages.html>pages</a>")
-    interface = interface.replace("name", "home")
-    html.write(f"{interface}")
-    html.close()
-    pages = JSONToList("pages/pages.JSON")
-    posts = JSONToList("posts/posts.JSON")
-    UpdateListBrowser("pages", pages)
-    UpdateListBrowser("posts", posts)
+    types = {"types": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+    environment = Environment(loader=FileSystemLoader("templates/"))
+    template = environment.get_template("browseList.html")
+    with open("_site/home.html", mode="w", encoding="utf-8") as home:
+        home.write(template.render(
+            types,
+            title = "home"
+            ))
+    for type in types["types"]:
+        UpdateListBrowser(type["folder"], type["name"])

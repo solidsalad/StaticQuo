@@ -5,12 +5,6 @@ import json
 
 #with open(markdownFile.replace("md", "html"), 'w') as f:
 
-def OpenTemplate(template):
-    temp = open("templates/" + template,"r")
-    interface = temp.read()
-    temp.close()
-    return interface
-
 
 def MarkdownToHTML(markdownText):
     # Convert markdown to HTML
@@ -22,24 +16,15 @@ def StrYamlToDict(yamlText):
     data = yaml.safe_load(yamlText.replace("---", ""))
     return data
 
-def ParseToHTML(destination, markdownFile, template):
+def ParseToHTML(destination, markdownFile):
     with open(markdownFile, 'r') as f:
         tempMd= f.read()
     
     #determine where yaml ends and markdown starts
     split = tempMd.rfind("---") + 3
-    #split yaml part from markdown part
-    partYaml = tempMd[:split]
+    #split markdown part from the rest
     partMarkdown = tempMd[split+1:]
-
-    data = StrYamlToDict(partYaml)
-
-    html = open(destination + "/" + markdownFile.replace("md", "html"), "w")
-    interface = OpenTemplate("template1.html")
-    interface = interface.replace("insert-html", MarkdownToHTML(partMarkdown))
-    interface = interface.replace("name", data["title"])
-    html.write(f"{interface}")
-    html.close()
+    return MarkdownToHTML(partMarkdown)
 
 
 def GetYamlData(markdownFile):
@@ -77,6 +62,11 @@ def JSONToList(source):
 
 def JSONToDict(source):
     dict = {}
-    with open(source) as f:
-        dict = json.load(f)
+    #try to open JSON file with already entered pages (if the file exists)
+    try:
+        with open(source) as f:
+            dict = json.load(f)
+    except:
+        #leave dictionary empty/unchanged if no JSON is found
+        dict = dict
     return dict
