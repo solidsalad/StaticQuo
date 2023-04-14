@@ -3,8 +3,19 @@
 	<nav>
 		<ul>
 			{% for link in links %}
-				<li>
-					<a href="../{{ link.folder }}/{{ link.name }}.html">{{ link.name }}</a>
+				<li class="nav-content">
+					<div class="dropdown">
+						<a href="../{{ link.folder }}/{{ link.name }}.html">{{ link.name }}</a>
+						<div class="dropdown-content">
+							<ul>
+								{% for i in link.content %}
+									<li>
+										<a href="../{{ link.folder }}/{{ link.content[i].fileName }}.html">{{ link.content[i].title }}</a>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
 				</li>
 			{% endfor %}
 		</ul>

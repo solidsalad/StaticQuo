@@ -6,6 +6,7 @@ def UpdateListBrowser(folder, content, template, contentHeader=""):
     environment = Environment(loader=FileSystemLoader("templates/"))
     template = environment.get_template(template)
     types = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+    types = AddDropDownContent(types)
     #if no content header has been provided, the content header becomes the name of the file
     if (contentHeader == ""):
         contentHeader = content
@@ -20,6 +21,7 @@ def UpdateListBrowser(folder, content, template, contentHeader=""):
 
 def initialize():
     types = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+    types = AddDropDownContent(types)
     environment = Environment(loader=FileSystemLoader("templates/"))
     template = environment.get_template("home.html")
     with open("_site/home.html", mode="w", encoding="utf-8") as home:
@@ -45,3 +47,9 @@ def GetStyle(styleName):
     interface = style.read()
     style.close()
     return interface    
+
+def AddDropDownContent(types):
+    #add dropdown content
+    for type in types["links"]:
+        type["content"] = JSONToDict(f'{type["folder"]}/{type["name"]}.JSON')
+    return types

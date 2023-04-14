@@ -53,3 +53,37 @@ header button {
 header button:hover {
     background-color: rgba(0,136,169,0.8);
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #0088a9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown-content ul {
+    position: relative;
+    right: 0px;
+  }
+  
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown ul {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.dropdown a:hover {
+    color: black;
+}

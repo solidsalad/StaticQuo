@@ -1,5 +1,5 @@
-from parsers import ParseToHTML, GetYamlData, JSONToDict
-from website import UpdateListBrowser, GetNav, GetStyle
+from parsers import ParseToHTML, GetYamlData, JSONToDict, JSONToList
+from website import UpdateListBrowser, GetNav, GetStyle, AddDropDownContent
 from jinja2 import Environment, FileSystemLoader
 import json
 
@@ -27,6 +27,7 @@ def AddPage(markdownFile, template, style=" "):
 
         #a ditcionary with all the links the nav needs to contain
         navLinks = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+        navLinks = AddDropDownContent(navLinks)
 
 
         #fill in template with jinja
@@ -44,7 +45,7 @@ def AddPage(markdownFile, template, style=" "):
             json.dump(pageData, f, default=str)
         with open("pages/pages.JSON", "w") as k:
             json.dump(pageList, k, default=str)
-        UpdateListBrowser("pages", "pages")
+        UpdateListBrowser("pages", "pages", "pages_template.html")
     
 
 def AddPost(markdownFile, template, style=" "):
@@ -71,6 +72,7 @@ def AddPost(markdownFile, template, style=" "):
 
         #a ditcionary with all the links the nav needs to contain
         navLinks = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
+        navLinks = AddDropDownContent(navLinks)
 
         #fill in template with jinja
         environment = Environment(loader=FileSystemLoader("templates/"))
@@ -82,10 +84,21 @@ def AddPost(markdownFile, template, style=" "):
                 navStyle = GetStyle("navStyle.css"),
                 style = GetStyle(style)
                 ))
+        
+        #add site to taglist for each tag
+        if ("tags" in postData.keys()):
+            for tag in postData["tags"]:
+                SitesWithTag = JSONToDict(f"tags/{tag}.JSON")
+                SitesWithTag[f"{postName}"] = postData
+                with open(f"tags/{tag}.JSON", "w") as g:
+                    json.dump(SitesWithTag, g, default=str)
+                UpdateListBrowser("tags", f"{tag}", "tagList.html", f"posts about {tag}")
+                
+
 
         #save data and refresh post list
         with open("posts/" + markdownFile.replace("md", "JSON"), "w") as f:
             json.dump(postData, f, default=str)
         with open("posts/posts.JSON", "w") as k:
             json.dump(postList, k, default=str)
-        UpdateListBrowser("posts", "posts")
+        UpdateListBrowser("posts", "posts", "posts_template.html")
