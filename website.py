@@ -16,10 +16,11 @@ def UpdateListBrowser(folder, content, template, contentHeader=""):
             nav = GetNav("nav", types),
             navStyle = GetStyle("navStyle.css"),
             style = GetStyle("darkMode.css"),
-            header = contentHeader
+            header = contentHeader,
+            title = contentHeader
             ))
 
-def initialize():
+def Initialize():
     types = {"links": [{"name":"pages", "folder": "pages"}, {"name":"posts", "folder": "posts"}]}
     types = AddDropDownContent(types)
     environment = Environment(loader=FileSystemLoader("templates/"))

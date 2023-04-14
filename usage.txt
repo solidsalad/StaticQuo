@@ -1,0 +1,36 @@
+custom markdown files:
+    add a premade markdown file:
+        syntax: staticQuo.py page/post add [markdownFile] -> add premade markdown
+        system asks if you want to add any other files [Y/N]
+            Y: give all files you want to add, seperated by a comma
+            N: end
+        
+    delete a page/post:
+        syntax: staticQuo.py page/post del [filename]
+        system asks if you want to delete any other files [Y/N]
+            Y: give all files you want to delete, seperated by a comma
+            N: end
+
+prefabs:
+    add x amount of sites using a certain template:
+        syntax: staticQuo.py [template] add [number]
+            repeat [number] times:
+                <prefab fill in>
+    
+    browse prefabs and choose one to edit (not scalable to multiple sites)
+        syntax: staticQuo.py prefabs
+            display list of prefabs, divided between posts and and pages
+            user answers which one he wants to edit
+            <prefab fill in>
+    
+    <prefab fill in>:
+        ask each fillable individually
+        display default tags
+        ask if user wants to add any tags (if prefab is post) [Y/N]
+            Y: loop tag adding until user says stop
+            N: next step
+        ask what to name the file (if filename already exists, notify user and try again) [continue/rename]
+            continue: previous file gets overwritten
+            rename: user gives new name
+
+

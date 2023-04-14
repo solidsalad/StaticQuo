@@ -8,8 +8,12 @@ body a {
     cursor: pointer;
 }
 
-.postListing {
-    margin-bottom: 5rem;
+.content {
+    padding: 2rem;
+}
+
+.listing {
+    margin-bottom: 4rem;
 }
 
 .title {

@@ -14,16 +14,18 @@
     	<title>{{ title }}</title>
   <body>
     {{ nav }}
-    <h1>{{ title }}</h1>
-    <p>{{ date }}</p>
-    <p>tags:</p>
-    <ul>
-      {% for tag in tags %}
-        <li class="tag">
-          <a href="../tags/{{ tag }}.html">{{ tag }}</a>
-        </li>
-      {% endfor %}
-  </ul>
-    {{ content }}
+    <div class="content">
+      <h1>{{ title }}</h1>
+      <p>{{ date }}</p>
+      <p>tags:</p>
+      <ul>
+        {% for tag in tags %}
+          <li class="tag">
+            <a href="../tags/{{ tag }}.html">{{ tag }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {{ content }}
+  </div>
   </body>
   </html>

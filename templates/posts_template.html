@@ -15,11 +15,11 @@
     </head>
     <body>
 		{{ nav }}
-		<div class="{{ header }}">
-			<h1>{{ header }}:</h1>
+		<div class="content">
+			<h1 class ="{{ header }}">{{ header }}:</h1>
 			<ul>
 				{% for post in data %}
-					<li class="postListing">
+					<li class="listing">
 						<a href="{{ post.fileName }}.html" class="title">{{ post.title }}</a>
 						{% if post.tags|length > 0 %}
 							<div class="taglist">

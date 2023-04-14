@@ -1,9 +1,11 @@
-from parsers import ParseToHTML, GetYamlData, JSONToDict, JSONToList
-from website import UpdateListBrowser, GetNav, GetStyle, AddDropDownContent
+from parsers import ParseToHTML, GetYamlData, JSONToDict
+from website import UpdateListBrowser, GetNav, GetStyle, AddDropDownContent, Initialize
 from jinja2 import Environment, FileSystemLoader
 import json
+import os
 
-def AddPage(markdownFile, template, style=" "):
+
+def AddPage(markdownFile, styleFile="darkMode.css"):
     try:
         content = ParseToHTML("pages", markdownFile)
     except:
@@ -38,17 +40,21 @@ def AddPage(markdownFile, template, style=" "):
                 pageData,
                 nav = GetNav("nav", navLinks),
                 navStyle = GetStyle("navStyle.css"),
-                style = GetStyle(style)
+                style = GetStyle(styleFile)
                 ))
 
         with open("pages/" + markdownFile.replace("md", "JSON"), "w") as f:
             json.dump(pageData, f, default=str)
         with open("pages/pages.JSON", "w") as k:
             json.dump(pageList, k, default=str)
+        
+        print(f"page {pageName} from {markdownFile} succesfully added")
+        
         UpdateListBrowser("pages", "pages", "pages_template.html")
+        Initialize()
     
 
-def AddPost(markdownFile, template, style=" "):
+def AddPost(markdownFile, styleFile="darkMode.css"):
     try:
         content = ParseToHTML("posts", markdownFile)
     except:
@@ -82,23 +88,86 @@ def AddPost(markdownFile, template, style=" "):
                 postData,
                 nav = GetNav("nav", navLinks),
                 navStyle = GetStyle("navStyle.css"),
-                style = GetStyle(style)
+                style = GetStyle(styleFile)
                 ))
         
         #add site to taglist for each tag
         if ("tags" in postData.keys()):
             for tag in postData["tags"]:
-                SitesWithTag = JSONToDict(f"tags/{tag}.JSON")
-                SitesWithTag[f"{postName}"] = postData
+                sitesWithTag = JSONToDict(f"tags/{tag}.JSON")
+                sitesWithTag[f"{postName}"] = postData
                 with open(f"tags/{tag}.JSON", "w") as g:
-                    json.dump(SitesWithTag, g, default=str)
+                    json.dump(sitesWithTag, g, default=str)
                 UpdateListBrowser("tags", f"{tag}", "tagList.html", f"posts about {tag}")
                 
-
-
         #save data and refresh post list
         with open("posts/" + markdownFile.replace("md", "JSON"), "w") as f:
             json.dump(postData, f, default=str)
         with open("posts/posts.JSON", "w") as k:
             json.dump(postList, k, default=str)
+
+        print(f"page {postName} from {markdownFile} succesfully added")        
+    
         UpdateListBrowser("posts", "posts", "posts_template.html")
+        Initialize()
+
+def DelPage(fileName):
+    try:
+        os.remove(f"pages/{fileName}.html")
+        os.remove(f"pages/{fileName}.JSON")
+    except:
+        print(f'file "{fileName}.html not found')
+    else:
+        pageList = JSONToDict("pages/pages.JSON")
+        del pageList[f"{fileName}"]
+        
+        #save new list to JSON
+        with open("pages/pages.JSON", "w") as k:
+            json.dump(pageList, k, default=str)
+        
+        print(f"page {fileName} succesfully deleted")
+
+        #refresh homepage
+        Initialize()
+
+        #update list (and the dropdown content of that page)
+        UpdateListBrowser("pages", "pages", "pages_template.html")
+
+
+def DelPost(fileName):
+    try:
+        #remove from taglist
+        postData = JSONToDict(f"posts/{fileName}.JSON")
+        for tag in postData["tags"]:
+            sitesWithTag = JSONToDict(f"tags/{tag}.JSON")
+            del sitesWithTag[f"{fileName}"]
+            #remove taglist if empty
+            if (len(sitesWithTag) == 0):
+                os.remove(f"tags/{tag}.JSON")
+                os.remove(f"tags/{tag}.html")
+            else:
+                with open(f"tags/{tag}.JSON", "w") as g:
+                    json.dump(sitesWithTag, g, default=str)
+                UpdateListBrowser("tags", f"{tag}", "tagList.html", f"posts about {tag}")
+
+        #remove files
+        os.remove(f"posts/{fileName}.html")
+        os.remove(f"posts/{fileName}.JSON")
+    except:
+        print(f'file "{fileName}.html not found')
+    else:
+        postList = JSONToDict("posts/posts.JSON")
+        del postList[f"{fileName}"]
+        
+        #save new list to JSON
+        with open("posts/posts.JSON", "w") as k:
+            json.dump(postList, k, default=str)
+
+        print(f"post {fileName} succesfully deleted")
+        
+        #refresh homepage
+        Initialize()
+
+        #update list (and the dropdown content of that page)
+        UpdateListBrowser("pages", "pages", "pages_template.html")
+
