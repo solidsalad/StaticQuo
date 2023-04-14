@@ -1,6 +1,6 @@
 from addThings import AddPage, AddPost, DelPage, DelPost
 from website import Initialize
-from userInteract import AddPostOrPage, DelPostOrPage
+from userInteract import AddPostOrPage, DelPostOrPage, FillPrefab
 import sys
 import json
 
@@ -11,7 +11,7 @@ Initialize()
 
 #syntax: staticQuo.py page/post add [markdownFile] ... -> add premade markdown(s)
 #syntax: staticQuo.py page/post del [filename] ... -> delete page(s)/post(s)
-#syntax: staticQuo.py [template] add [number] -> add x amount of sites using a certain template
+#syntax: staticQuo.py [template] add [number] page/post -> add x amount of sites using a certain template
 #syntax: staticQuo.py prefabs -> browse prefabs and choose one to edit
 
 if (len(sys.argv) >= 4):
@@ -25,10 +25,9 @@ if (len(sys.argv) >= 4):
             UnknownCommandError()
     
     #syntax: staticQuo.py [template] add [number]
-    elif isinstance(sys.argv[3],(int, float)) and (sys.argv[3] > 0):
-        print("template code not added yet")
+    elif isinstance(int(sys.argv[3]),(int)) and (int(sys.argv[3]) > 0):
+        FillPrefab(sys.argv[1], int(sys.argv[3]), sys.argv[4])
     else:
-        print("hallo")
         UnknownCommandError()
 else:
-    print("ikd")
+    print("page refreshed")

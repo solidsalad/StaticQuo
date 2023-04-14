@@ -3,11 +3,11 @@ from website import UpdateListBrowser, GetNav, GetStyle, AddDropDownContent, Ini
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
-
+import time
 
 def AddPage(markdownFile, styleFile="darkMode.css"):
     try:
-        content = ParseToHTML("pages", markdownFile)
+        content = ParseToHTML(markdownFile)
     except:
         print(f"file {markdownFile} not found, skipping to next file")
     else:
@@ -56,7 +56,7 @@ def AddPage(markdownFile, styleFile="darkMode.css"):
 
 def AddPost(markdownFile, styleFile="darkMode.css"):
     try:
-        content = ParseToHTML("posts", markdownFile)
+        content = ParseToHTML(markdownFile)
     except:
         print(f"file {markdownFile} not found, skipping to next file")
     else:
@@ -171,3 +171,18 @@ def DelPost(fileName):
         #update list (and the dropdown content of that page)
         UpdateListBrowser("pages", "pages", "pages_template.html")
 
+def AddWithPrefab(templateMdFile, fillData, fileName, type="post"):
+    #fill in the template with the provided data
+    environment = Environment(loader=FileSystemLoader("templates/prefabs/"))
+    mdTemplate = environment.get_template(templateMdFile)
+    
+    with open(f"{fileName}.md", mode="w", encoding="utf-8") as message:
+        message.write(mdTemplate.render(fillData))
+
+    if (type == "page"):
+        AddPage(f"{fileName}.md")
+    elif (type == "post"):
+        AddPost(f"{fileName}.md")
+    else:
+        print(f"filetype {type} not found")
+    os.remove(f"{fileName}.md")

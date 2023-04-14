@@ -16,7 +16,7 @@ def StrYamlToDict(yamlText):
     data = yaml.safe_load(yamlText.replace("---", ""))
     return data
 
-def ParseToHTML(destination, markdownFile):
+def ParseToHTML(markdownFile):
     with open(markdownFile, 'r') as f:
         tempMd= f.read()
     
