@@ -1,8 +1,6 @@
-from addThings import AddPage, AddPost, DelPage, DelPost
 from website import Initialize
 from userInteract import AddPostOrPage, DelPostOrPage, FillPrefab
 import sys
-import json
 
 def UnknownCommandError():
     print("ERROR: unknown command\n\ntry:\n\tstaticQuo.py page/post add [markdownFile] ...\n\tstaticQuo.py page/post del [filename]\n\tstaticQuo.py [template] add [number]\n\tstaticQuo.py prefabs\n")

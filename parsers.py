@@ -26,7 +26,6 @@ def ParseToHTML(markdownFile):
     partMarkdown = tempMd[split+1:]
     return MarkdownToHTML(partMarkdown)
 
-
 def GetYamlData(markdownFile):
     with open(markdownFile, 'r') as f:
         tempMd= f.read()
@@ -35,18 +34,6 @@ def GetYamlData(markdownFile):
     #split yaml part from markdown part
     partYaml = tempMd[:split]
     return StrYamlToDict(partYaml)
-
-
-def JSONToLis(source):
-    list = []
-    #try to open JSON file with already entered pages (if the file exists)
-    try:
-        with open(source) as f:
-            list = json.load(f)
-    except:
-        #leave list empty/unchanged if no JSON is found
-        list = list
-    return list
 
 def JSONToDict(source):
     dict = {}
