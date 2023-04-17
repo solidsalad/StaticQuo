@@ -13,10 +13,12 @@ custom markdown files:
 
 prefabs:
     add x amount of sites using a certain template:
-        syntax: staticQuo.py [template] add [number]
+        syntax: staticQuo.py [template] add [number] post/page
             repeat [number] times:
                 <prefab fill in>
     
+    //everything above this point should work as intended
+    //everything below this point has not yet been added in
     browse prefabs and choose one to edit (not scalable to multiple sites)
         syntax: staticQuo.py prefabs
             display list of prefabs, divided between posts and and pages
